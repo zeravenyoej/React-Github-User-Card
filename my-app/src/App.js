@@ -1,28 +1,28 @@
 import React from 'react';
 import axios from 'axios';
 import Card from './components/Card';
+import './App.css';
 
 class App extends React.Component {
   constructor() {
     super()
     this.state={
-      users: []
+      user: {}
     }
   }
 
   componentDidMount() {
     this.fetchData('zeravenyoej')
   };
-
+  
 
   fetchData= (user) => {
     axios.get(`https://api.github.com/users/${user}`)
       .then(res=>{
-        console.log(res.data);
+        console.log('my data: ', res.data);
 
         this.setState({
-          ...this.state,
-          users: [res.data]
+          user: res.data
         })
       })
       .catch(err=>{
@@ -30,15 +30,10 @@ class App extends React.Component {
       }); 
   };
 
-
   render() {
     return (
       <div>
-        <h1>My program</h1>
-
-        {this.state.users.map((user, index)=>{
-            return <Card key={index} user={user}/>
-        })}
+        <Card user={this.state.user}/>
       </div>
     )
   };
